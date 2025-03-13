@@ -36,6 +36,11 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 sudo usermod -aG video $USER
 ```
 
+### Install Dependencies of Raspberry Pi Pico C/C++ SDK
+```bash
+sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
+```
+
 ### Build
 ```bash
 git clone --recurse-submodules https://github.com/noidvan/wall_f_junior_base_stack
