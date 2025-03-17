@@ -122,18 +122,14 @@ int main()
 
     while (true)
     {
-        // Generate a sine wave pattern for throttle values
         float throttle_1 = amplitude * sinf(2.0f * M_PI * frequency * time) + offset;
-        float throttle_2 = amplitude * sinf(2.0f * M_PI * frequency * time + M_PI); // Phase-shifted by π (opposite)
+        float throttle_2 = amplitude * sinf(2.0f * M_PI * frequency * time + M_PI);
 
-        // Apply throttle to motors
         set_motor(&motor_1, throttle_1);
         set_motor(&motor_2, throttle_2);
 
-        // Increment time
         time += step_time;
 
-        // Delay to control update rate
         sleep_ms(step_delay_ms);
     }
 
