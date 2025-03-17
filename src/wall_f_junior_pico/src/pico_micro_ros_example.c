@@ -82,11 +82,12 @@ int main()
         ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
         "pico_publisher");
 
-    rclc_timer_init_default(
+    rclc_timer_init_default2(
         &timer,
         &support,
         RCL_MS_TO_NS(1000),
-        timer_callback);
+        timer_callback,
+        true);
 
     rclc_executor_init(&executor, &support.context, 1, &allocator);
     rclc_executor_add_timer(&executor, &timer);
