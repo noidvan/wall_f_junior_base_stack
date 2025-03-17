@@ -43,7 +43,7 @@ float UINT6_SCALE = 65535.0f;
 
 typedef struct Motor {
     uint8_t direction_pin_1;
-    uint8_t direction_pin_2;
+    uint8_t direction_pin_2; 
     uint8_t speed_pin;
 } Motor;
 
