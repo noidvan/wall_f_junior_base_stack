@@ -6,4 +6,7 @@
         <param name="config" value="$(find-pkg-share wall_f_junior_base_station)/config/slider/$(var file)"/>
         <param name="rate" value="$(var rate)"/>
     </node>
+
+    <node pkg="micro_ros_agent" exec="micro_ros_agent" name="pico_agent" output="screen" args="serial --dev /dev/ttyACM0 -b 115200">
+    </node>
 </launch>

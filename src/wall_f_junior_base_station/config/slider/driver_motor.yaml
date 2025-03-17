@@ -1,3 +1,8 @@
+motor_1_arm:
+  type: std_msgs/Bool
+  yes_or_no:
+      to: data
+
 motor_1_setpoint:
   type: std_msgs/Float32
   throttle:
@@ -5,6 +10,11 @@ motor_1_setpoint:
     max: 1
     to: data
     default: 0
+
+motor_2_arm:
+  type: std_msgs/Bool
+  yes_or_no:
+      to: data
 
 motor_2_setpoint:
   type: std_msgs/Float32
