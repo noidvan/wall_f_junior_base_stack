@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="file" default="driver_motor.yaml"/>
+    <arg name="rate" default="100."/>
+    <node pkg="slider_publisher" exec="slider_publisher" name="driver_motor_test_pub" output="screen">
+        <param name="config" value="$(find-pkg-share wall_f_junior_base_station)/config/slider/$(var file)"/>
+        <param name="rate" value="$(var rate)"/>
+    </node>
+</launch>
