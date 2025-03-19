@@ -55,6 +55,8 @@ float UINT6_SCALE = 65535.0f;
 int ROS_TIMEOUT_MS = 1000;
 uint8_t ROS_ATTEMPTS = 120;
 int ROS_NUM_HANDLES = 4;
+uint8_t ARGC = 0;
+char* ARGV = NULL;
 char* NAMESPACE = "";
 char* NODE_NAME = "motor_test";
 char* MOTOR_1_SETPOINT_TOPIC = "motor_1_setpoint";
@@ -166,14 +168,6 @@ void arm_callback(const void * msgin, Motor* motor) {
 
 int main()
 {
-    // Pinout
-    Motor motor_1 = {IN1, IN2, ENA, false};
-    Motor motor_2 = {IN3, IN4, ENB, false};
-
-    // Init motors
-    init_motor(&motor_1);
-    init_motor(&motor_2);
-
     rmw_uros_set_custom_transport(
 		true,
 		NULL,
@@ -183,10 +177,17 @@ int main()
 		pico_serial_transport_read
 	);
 
+    // Pinout
+    Motor motor_1 = {IN1, IN2, ENA, false};
+    Motor motor_2 = {IN3, IN4, ENB, false};
+
+    // Init motors
+    init_motor(&motor_1);
+    init_motor(&motor_2);
+
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
-    rcl_timer_t timer;
     rcl_node_t node;
     rcl_allocator_t allocator;
     rclc_support_t support;
@@ -214,12 +215,11 @@ int main()
 
     rcl_ret_t ret = rmw_uros_ping_agent(ROS_TIMEOUT_MS, ROS_ATTEMPTS);
 
-    if (ret != RCL_RET_OK)
-    {
+    if (ret != RCL_RET_OK) {
         return ret;
     }
 
-    rclc_support_init(&support, 0, NULL, &allocator);
+    rclc_support_init(&support, ARGC, ARGV, &allocator);
 
     rclc_node_init_default(&node, NODE_NAME, NAMESPACE, &support);
 
@@ -285,7 +285,7 @@ int main()
         ON_NEW_DATA
     );
     
-    gpio_put(LED_PIN, 1);
+    gpio_put(LED_PIN, HIGH);
 
     rclc_executor_spin(&executor);
 

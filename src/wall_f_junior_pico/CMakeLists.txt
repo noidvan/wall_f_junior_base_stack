@@ -7,10 +7,16 @@ project(wall_f_junior_pico LANGUAGES C CXX)
 
 option(STDIO_USB "Use Pico USB IO" ON)
 option(STDIO_UART "Use Pico uart IO" OFF)
-option(BUILD_TEST "Build test" OFF)
+option(BUILD_TEST "Build test" ON)
+
+set(BME68X_PORT     "i2c1"                 CACHE STRING "i2c-port name")
+set(BME68X_SDA      "2"                    CACHE STRING "SDA pin-number for BME68X")
+set(BME68X_SCL      "3"                    CACHE STRING "SCL pin-number for BME68X")
+set(BME68X_ADDR     "BME68X_I2C_ADDR_LOW"  CACHE STRING "BME68x address constant")
 
 pico_sdk_init()
 
+add_subdirectory(pico-bme688)
 link_directories(libmicroros)
 
 include_directories(
@@ -48,6 +54,18 @@ if (BUILD_TEST)
         pico_stdlib
         hardware_pwm
     )
+
+    add_executable(test_air_sensor
+        src/test/test_air_sensor.c
+        src/pico_uart_transport.c
+    )
+
+    target_link_libraries(test_air_sensor
+        pico_stdlib
+        microros
+        hardware_i2c
+        bme68x
+    )
 endif()
 
 SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
@@ -62,6 +80,8 @@ if (BUILD_TEST)
     pico_enable_stdio_uart(pico_micro_ros_example STDIO_UART)
     pico_enable_stdio_usb(test_driver_motor STDIO_USB)
     pico_enable_stdio_uart(test_driver_motor STDIO_UART)
+    pico_enable_stdio_usb(test_air_sensor STDIO_USB)
+    pico_enable_stdio_uart(test_air_sensor STDIO_UART)
 endif()
 
 add_compile_definitions(PICO_UART_ENABLE_CRLF_SUPPORT=0)
@@ -74,4 +94,5 @@ pico_add_extra_outputs(driver_motor_agent)
 if (BUILD_TEST)
     pico_add_extra_outputs(pico_micro_ros_example)
     pico_add_extra_outputs(test_driver_motor)
+    pico_add_extra_outputs(test_air_sensor)
 endif()

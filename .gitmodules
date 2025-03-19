@@ -7,3 +7,6 @@
 [submodule "src/wall_f_junior_pico/pico-sdk"]
 	path = src/wall_f_junior_pico/pico-sdk
 	url = https://github.com/raspberrypi/pico-sdk.git
+[submodule "src/wall_f_junior_pico/pico-bme688"]
+	path = src/wall_f_junior_pico/pico-bme688
+	url = https://github.com/bablokb/pico-bme688.git
