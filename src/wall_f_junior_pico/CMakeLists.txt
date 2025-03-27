@@ -6,7 +6,7 @@ include(${PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 project(wall_f_junior_pico LANGUAGES C CXX)
 
 option(STDIO_USB "Use Pico USB IO" ON)
-option(STDIO_UART "Use Pico uart IO" OFF)
+option(STDIO_UART "Use Pico uart IO" ON)
 option(BUILD_TEST "Build test" ON)
 
 set(BME68X_PORT     "i2c1"                 CACHE STRING "i2c-port name")
@@ -22,17 +22,6 @@ link_directories(libmicroros)
 include_directories(
     include
     libmicroros/include
-)
-
-add_executable(driver_motor_agent
-    src/driver_motor_agent.c
-    src/pico_uart_transport.c
-)
-
-target_link_libraries(driver_motor_agent
-    pico_stdlib
-    hardware_pwm
-    microros
 )
 
 if (BUILD_TEST)
@@ -66,13 +55,53 @@ if (BUILD_TEST)
         hardware_i2c
         bme68x
     )
+
+    add_executable(test_soil_sensor
+        src/test/test_soil_sensor.c
+        src/pico_uart_transport.c
+    )
+
+    target_link_libraries(test_soil_sensor
+        pico_stdlib
+        microros
+        hardware_adc
+    )
+
+    add_executable(test_driver_motor_agent
+        src/test/test_driver_motor_agent.c
+        src/pico_uart_transport.c
+    )
+
+    target_link_libraries(test_driver_motor_agent
+        pico_stdlib
+        hardware_pwm
+        microros
+    )
+
+    add_executable(test_stepper_motor_agent
+        src/test/test_stepper_motor_agent.c
+        src/pico_uart_transport.c
+    )
+
+    target_link_libraries(test_stepper_motor_agent
+        pico_stdlib
+        microros
+    )
+
+    add_executable(test_imu
+        src/test/test_imu.c
+        src/pico_uart_transport.c
+    )
+
+    target_link_libraries(test_imu
+        pico_stdlib
+        microros
+        hardware_i2c
+    )
 endif()
 
 SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
-
-pico_enable_stdio_usb(driver_motor_agent STDIO_USB)
-pico_enable_stdio_uart(driver_motor_agent STDIO_UART)
 
 # Configure Pico
 if (BUILD_TEST)
@@ -82,6 +111,14 @@ if (BUILD_TEST)
     pico_enable_stdio_uart(test_driver_motor STDIO_UART)
     pico_enable_stdio_usb(test_air_sensor STDIO_USB)
     pico_enable_stdio_uart(test_air_sensor STDIO_UART)
+    pico_enable_stdio_usb(test_soil_sensor STDIO_USB)
+    pico_enable_stdio_uart(test_soil_sensor STDIO_UART)
+    pico_enable_stdio_usb(test_driver_motor_agent STDIO_USB)
+    pico_enable_stdio_uart(test_driver_motor_agent STDIO_UART)
+    pico_enable_stdio_usb(test_stepper_motor_agent STDIO_USB)
+    pico_enable_stdio_uart(test_stepper_motor_agent STDIO_UART)
+    pico_enable_stdio_usb(test_imu STDIO_USB)
+    pico_enable_stdio_uart(test_imu STDIO_UART)
 endif()
 
 add_compile_definitions(PICO_UART_ENABLE_CRLF_SUPPORT=0)
@@ -89,10 +126,13 @@ add_compile_definitions(PICO_STDIO_ENABLE_CRLF_SUPPORT=0)
 add_compile_definitions(PICO_STDIO_DEFAULT_CRLF=0)
 
 # Generate UF2
-pico_add_extra_outputs(driver_motor_agent)
 
 if (BUILD_TEST)
     pico_add_extra_outputs(pico_micro_ros_example)
     pico_add_extra_outputs(test_driver_motor)
     pico_add_extra_outputs(test_air_sensor)
+    pico_add_extra_outputs(test_soil_sensor)
+    pico_add_extra_outputs(test_stepper_motor_agent)
+    pico_add_extra_outputs(test_driver_motor_agent)
+    pico_add_extra_outputs(test_imu)
 endif()
