@@ -1,0 +1,9 @@
+<library path="wall_f_junior_base_station">
+  <class name="wall_f_junior_base_station/ControlPanel"
+         type="wall_f_junior_base_station::ControlPanel"
+         base_class_type="rviz_common::Panel">
+    <description>
+      Wall-F Junior base station control panel.
+    </description>
+  </class>
+</library>
