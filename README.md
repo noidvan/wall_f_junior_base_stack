@@ -45,6 +45,6 @@ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-n
 ```bash
 git clone --recurse-submodules https://github.com/noidvan/wall_f_junior_base_stack
 cd wall_f_junior_base_stack
-rosdep install --from-paths src
+rosdep install --from-paths src --ignore-src -r -y
 colcon build
 ```

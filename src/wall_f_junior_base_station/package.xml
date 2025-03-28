@@ -9,8 +9,6 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>slider_publisher</depend>
-  <depend>rviz_2d_overlay_plugins</depend>
   <depend>rclcpp</depend>
   <depend>rclpy</depend>
   <depend>std_msgs</depend>
@@ -26,6 +24,9 @@
   <depend>pluginlib</depend>
 
   <exec_depend>ros2launch</exec_depend>
+  <exec_depend>micro_ros_agent</exec_depend>
+  <exec_depend>slider_publisher</exec_depend>
+  <exec_depend>rviz_2d_overlay_plugins</exec_depend>
 
   <export>
     <build_type>ament_cmake</build_type>

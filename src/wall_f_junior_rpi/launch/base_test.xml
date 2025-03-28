@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="wall_f_junior_rpi" exec="command_mixer_node" name="command_mixer_node" output="screen"/>
+
+</launch>
