@@ -1,6 +1,6 @@
 # WALL-F Junior Base Stack
 
-## Raspberry Pi Software Installation
+## Raspberry Pi & Base Station Software Installation
 
 ### Install Ubuntu
 
@@ -12,7 +12,7 @@ sudo apt upgrade
 sudo apt install vim
 ```
 
-### Enable SSH
+### Enable SSH (Raspberry Pi Only)
 ```bash
 sudo apt install ssh
 sudo systemctl enable ssh
@@ -28,7 +28,7 @@ sudo rosdep init
 rosdep update
 ```
 
-### Adjust CSI Camera Permissions
+### Adjust CSI Camera Permissions (Raspberry Pi Only)
 ```bash
 sudo vim /etc/udev/rules.d/raspberrypi.rules
 # SUBSYSTEM=="dma_heap", GROUP="video", MODE="0660"
@@ -48,3 +48,13 @@ cd wall_f_junior_base_stack
 rosdep install --from-paths src --ignore-src -r -y
 colcon build
 ```
+
+## Credits
+
+This project contains code from the following open-source releases:
+* [ROS 2 node for libcamera](https://github.com/christianrauch/camera_ros) by Christian Rauch under the MIT license
+* [micro-ROS Agent](https://github.com/micro-ROS/micro-ROS-Agent) by Open Robotics under the Apache-2.0 license
+* [Autonomy Stack](https://github.com/jizhang-cmu/autonomy_stack_mecanum_wheel_platform) by Prof. Ji Zhang
+* [micor-ROS Raspberry Pi Pico SDK](https://github.com/micro-ROS/micro_ros_raspberrypi_pico_sdk) by Open Robotics under the Apache-2.0 license
+* [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk) by Raspberry Pi under the BSD-3-Clause license
+* [Pico BME688](https://github.com/bablokb/pico-bme688) by bablokb
