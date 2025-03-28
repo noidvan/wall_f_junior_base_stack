@@ -7,7 +7,7 @@ project(wall_f_junior_pico LANGUAGES C CXX)
 
 option(STDIO_USB "Use Pico USB IO" ON)
 option(STDIO_UART "Use Pico uart IO" ON)
-option(BUILD_TEST "Build test" ON)
+option(BUILD_TEST "Build test" PFF)
 
 set(BME68X_PORT     "i2c1"                 CACHE STRING "i2c-port name")
 set(BME68X_SDA      "2"                    CACHE STRING "SDA pin-number for BME68X")
@@ -22,6 +22,22 @@ link_directories(libmicroros)
 include_directories(
     include
     libmicroros/include
+)
+
+add_executable(rear_agent
+    src/rear_agent.c
+    src/pico_uart_transport.c
+)
+
+target_link_libraries(rear_agent
+    pico_stdlib
+    microros
+    hardware_adc
+    pico_stdlib
+    microros
+    hardware_i2c
+    bme68x
+    hardware_pwm
 )
 
 if (BUILD_TEST)
@@ -103,6 +119,9 @@ endif()
 SET(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -ffunction-sections -fdata-sections")
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ffunction-sections -fdata-sections")
 
+pico_enable_stdio_usb(rear_agent STDIO_USB)
+pico_enable_stdio_uart(rear_agent STDIO_UART)
+
 # Configure Pico
 if (BUILD_TEST)
     pico_enable_stdio_usb(pico_micro_ros_example STDIO_USB)
@@ -136,3 +155,5 @@ if (BUILD_TEST)
     pico_add_extra_outputs(test_driver_motor_agent)
     pico_add_extra_outputs(test_imu)
 endif()
+
+pico_add_extra_outputs(rear_agent)

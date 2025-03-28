@@ -36,6 +36,23 @@ sudo udevadm control --reload-rules && sudo udevadm trigger
 sudo usermod -aG video $USER
 ```
 
+### Enable Additional UART (Raspberry Pi Only)
+```bash
+sudo usermod -a -G tty $USER
+sudo vim /boot/config.txt
+```
+
+Add the following lines and reboot:
+```
+enable_uart=1
+dtoverlay=uart0
+dtoverlay=uart1
+dtoverlay=uart2
+dtoverlay=uart3
+dtoverlay=uart4
+dtoverlay=uart5
+```
+
 ### Install Dependencies of Raspberry Pi Pico C/C++ SDK
 ```bash
 sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
