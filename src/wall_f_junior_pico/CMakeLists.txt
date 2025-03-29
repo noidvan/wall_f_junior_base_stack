@@ -7,7 +7,7 @@ project(wall_f_junior_pico LANGUAGES C CXX)
 
 option(STDIO_USB "Use Pico USB IO" 1)
 option(STDIO_UART "Use Pico uart IO" 1)
-option(BUILD_TEST "Build test" OFF)
+option(BUILD_TEST "Build test" false)
 
 set(BME68X_PORT     "i2c1"                 CACHE STRING "i2c-port name")
 set(BME68X_SDA      "2"                    CACHE STRING "SDA pin-number for BME68X")
@@ -49,6 +49,17 @@ target_link_libraries(front_agent
     microros
     hardware_i2c
     pico_stdio_uart
+)
+
+add_executable(first_section_agent
+    src/first_section_agent.c
+    src/pico_uart_transport.c
+)
+
+target_link_libraries(first_section_agent
+    pico_stdlib
+    hardware_pwm
+    microros
 )
 
 if (BUILD_TEST)
@@ -136,6 +147,9 @@ pico_enable_stdio_uart(rear_agent STDIO_UART)
 pico_enable_stdio_usb(front_agent STDIO_USB)
 pico_enable_stdio_uart(front_agent STDIO_UART)
 
+pico_enable_stdio_usb(first_section_agent STDIO_USB)
+pico_enable_stdio_uart(first_section_agent STDIO_UART)
+
 # Configure Pico
 if (BUILD_TEST)
     pico_enable_stdio_usb(pico_micro_ros_example STDIO_USB)
@@ -172,3 +186,4 @@ endif()
 
 pico_add_extra_outputs(rear_agent)
 pico_add_extra_outputs(front_agent)
+pico_add_extra_outputs(first_section_agent)

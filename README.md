@@ -6,7 +6,7 @@ SSH into RPI terminal and execute: `./system_rpi.sh`
 On base station terminal execute: `./system_base_station.sh`
 
 ## Hardware Connection
-### Driver Motor Driver (L298N)
+### Rear Driver Motor Driver (L298N)
 - 12V -> Battery pack + 
 - GND -> Battery pack - & Pico rear GND 
 - ENA -> Pico rear GP6 
@@ -66,14 +66,26 @@ On base station terminal execute: `./system_base_station.sh`
 - SCL -> Pico front GP3 
 - SDA -> Pico front GP2 
 
+### First section Driver Motor Driver (L298N)
+- 12V -> Battery pack + 
+- GND -> Battery pack - & Pico first GND 
+- ENA -> Pico first GP6 
+- IN1-> Pico first GP7 
+- IN2-> Pico first GP8 
+- IN3-> Pico first GP9 
+- IN4-> Pico first GP10 
+- ENB-> Pico first GP11 
+
 ### 5V Regulator
 - IN+ -> Battery pack + 
 - IN- -> Battery pack - 
-- OUT+ -> Pico rear VSYS & Pico front VSYS 
-- OUT- -> Pico rear GND & Pico front GND 
+- OUT+ -> Pico first VSYS, Pico rear VSYS & Pico front VSYS 
+- OUT- -> Pico first GND, Pico rear GND & Pico front GND 
 
 ### Raspberry Pi
 - GND -> Pico rear GND & Pico front GND 
+- GPIO4 -> Pico first GP1 
+- GPIO5 -> Pico first GP0 
 - GPIO8 -> Pico rear GP1 
 - GPIO9 -> Pico rear GP0 
 - GPIO12 -> Pico front GP1 
@@ -124,6 +136,7 @@ sudo vim /boot/firmware/config.txt
 Add the following lines and reboot:
 ```
 enable_uart=1
+dtoverlay=uart3
 dtoverlay=uart4
 dtoverlay=uart5
 ```
@@ -142,7 +155,7 @@ colcon build
 ```
 
 ### Flash Pico
-* After compilation, locate `front_agent.uf2` and `rear_agent.uf2` in `build/wall_f_junior_pico`.
+* After compilation, locate `front_agent.uf2`,  `rear_agent.uf2` and `first_section_agent.uf2` in `build/wall_f_junior_pico`.
 * Press and hold the `BOOTSEL` button on the Pico while plugging in its USB to the computer.
 * Copy the `.uf2` file for the corresponding Pico into the appeared drive
 
