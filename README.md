@@ -112,7 +112,7 @@ rosdep update
 sudo vim /etc/udev/rules.d/raspberrypi.rules
 # SUBSYSTEM=="dma_heap", GROUP="video", MODE="0660"
 sudo udevadm control --reload-rules && sudo udevadm trigger
-sudo usermod -aG video $USER
+sudo usermod -a -G dialout $USER
 ```
 
 ### Enable Additional UART (Raspberry Pi Only)
