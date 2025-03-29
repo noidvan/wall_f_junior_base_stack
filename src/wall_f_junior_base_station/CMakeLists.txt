@@ -70,7 +70,7 @@ ament_export_dependencies(
   rviz2
   std_msgs)
 
-install(DIRECTORY config launch
+install(DIRECTORY config launch rviz
   DESTINATION share/${PROJECT_NAME}
 )
 

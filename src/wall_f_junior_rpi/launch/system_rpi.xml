@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="wall_f_junior_rpi" exec="command_mixer_node" name="command_mixer_node" output="screen"/>
+    <node pkg="micro_ros_agent" exec="micro_ros_agent" name="rear_agent" output="screen" args="serial --dev /dev/ttyAMA3 -b 115200"/>
+    <node pkg="micro_ros_agent" exec="micro_ros_agent" name="front_agent" output="screen" args="serial --dev /dev/ttyAMA4 -b 115200"/>
+    <node pkg="camera_ros" exec="camera_node" name="rpi_cam" output="screen"/>
+</launch>
