@@ -118,7 +118,7 @@ sudo usermod -aG video $USER
 ### Enable Additional UART (Raspberry Pi Only)
 ```bash
 sudo usermod -a -G tty $USER
-sudo vim /boot/config.txt
+sudo vim /boot/firmware/config.txt
 ```
 
 Add the following lines and reboot:
