@@ -43,6 +43,9 @@ SOFTWARE.
 // MPU6050 definitions
 // ------------------------------------------------------------------------------------
 static const int MPU6050_ADDR = 0x68;
+static i2c_inst_t* MPU6050_PORT = i2c1;
+static const int MPU6050_SDA_PIN = 2;
+static const int MPU6050_SCL_PIN = 3;
 
 // Conversion factors (assuming default ±2g & ±250 deg/s ranges)
 static const float ACCEL_SENS       = 16384.0f;  // LSB/g
@@ -85,7 +88,7 @@ static inline void mpu6050_write_reg(uint8_t reg, uint8_t value) {
     uint8_t buf[2];
     buf[0] = reg;
     buf[1] = value;
-    i2c_write_blocking(i2c_default, MPU6050_ADDR, buf, 2, false);
+    i2c_write_blocking(MPU6050_PORT, MPU6050_ADDR, buf, 2, false);
 }
 
 // ------------------------------------------------------------------------------------
@@ -95,12 +98,12 @@ static void mpu6050_reset() {
     // Two byte reset. First byte register, second byte data
     // There are a load more options to set up the device in different ways that could be added here
     uint8_t buf[] = {0x6B, 0x80};
-    i2c_write_blocking(i2c_default, MPU6050_ADDR, buf, 2, false);
+    i2c_write_blocking(MPU6050_PORT, MPU6050_ADDR, buf, 2, false);
     sleep_ms(100); // Allow device to reset and stabilize
 
     // Clear sleep mode (0x6B register, 0x00 value)
     buf[1] = 0x00;  // Clear sleep mode by writing 0x00 to the 0x6B register
-    i2c_write_blocking(i2c_default, MPU6050_ADDR, buf, 2, false); 
+    i2c_write_blocking(MPU6050_PORT, MPU6050_ADDR, buf, 2, false); 
     sleep_ms(10); // Allow stabilization after waking up
 }
 
@@ -116,8 +119,8 @@ static void mpu6050_read_raw(int16_t accel[3], int16_t gyro[3], int16_t *temp) {
 
     // Start reading acceleration registers from register 0x3B for 6 bytes
     uint8_t val = 0x3B;
-    i2c_write_blocking(i2c_default, MPU6050_ADDR, &val, 1, true); // true to keep master control of bus
-    i2c_read_blocking(i2c_default, MPU6050_ADDR, buffer, 6, false);
+    i2c_write_blocking(MPU6050_PORT, MPU6050_ADDR, &val, 1, true); // true to keep master control of bus
+    i2c_read_blocking(MPU6050_PORT, MPU6050_ADDR, buffer, 6, false);
 
     for (int i = 0; i < 3; i++) {
         accel[i] = (buffer[i * 2] << 8 | buffer[(i * 2) + 1]);
@@ -126,8 +129,8 @@ static void mpu6050_read_raw(int16_t accel[3], int16_t gyro[3], int16_t *temp) {
     // Now gyro data from reg 0x43 for 6 bytes
     // The register is auto incrementing on each read
     val = 0x43;
-    i2c_write_blocking(i2c_default, MPU6050_ADDR, &val, 1, true);
-    i2c_read_blocking(i2c_default, MPU6050_ADDR, buffer, 6, false);  // False - finished with bus
+    i2c_write_blocking(MPU6050_PORT, MPU6050_ADDR, &val, 1, true);
+    i2c_read_blocking(MPU6050_PORT, MPU6050_ADDR, buffer, 6, false);  // False - finished with bus
 
     for (int i = 0; i < 3; i++) {
         gyro[i] = (buffer[i * 2] << 8 | buffer[(i * 2) + 1]);;
@@ -136,8 +139,8 @@ static void mpu6050_read_raw(int16_t accel[3], int16_t gyro[3], int16_t *temp) {
     // Now temperature from reg 0x41 for 2 bytes
     // The register is auto incrementing on each read
     val = 0x41;
-    i2c_write_blocking(i2c_default, MPU6050_ADDR, &val, 1, true);
-    i2c_read_blocking(i2c_default, MPU6050_ADDR, buffer, 2, false);  // False - finished with bus
+    i2c_write_blocking(MPU6050_PORT, MPU6050_ADDR, &val, 1, true);
+    i2c_read_blocking(MPU6050_PORT, MPU6050_ADDR, buffer, 2, false);  // False - finished with bus
 
     *temp = buffer[0] << 8 | buffer[1];
 }
@@ -217,13 +220,13 @@ int main() {
     stdio_init_all();
 
     // Initialize I2C at 400 kHz
-    i2c_init(i2c_default, 400 * 1000);
-    gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
-    gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
-    gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
-    gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
-    bi_decl(bi_2pins_with_func(PICO_DEFAULT_I2C_SDA_PIN,
-                               PICO_DEFAULT_I2C_SCL_PIN,
+    i2c_init(MPU6050_PORT, 400 * 1000);
+    gpio_set_function(MPU6050_SDA_PIN, GPIO_FUNC_I2C);
+    gpio_set_function(MPU6050_SCL_PIN, GPIO_FUNC_I2C);
+    gpio_pull_up(MPU6050_SDA_PIN);
+    gpio_pull_up(MPU6050_SCL_PIN);
+    bi_decl(bi_2pins_with_func(MPU6050_SDA_PIN,
+                               MPU6050_SCL_PIN,
                                GPIO_FUNC_I2C));
 
     // Reset/Wake up MPU6050
@@ -278,11 +281,12 @@ int main() {
     g_imu_msg.header.frame_id.size = 0;       // We'll set it in the callback
 
     // Create timer at 100 Hz => 10 ms
-    rclc_timer_init_default(
+    rclc_timer_init_default2(
         &g_timer,
         &g_support,
         RCL_MS_TO_NS(IMU_PUBLISH_PERIOD_MS),
-        imu_timer_callback
+        imu_timer_callback,
+        true
     );
 
     // Create executor

@@ -171,11 +171,12 @@ int main()
 
     // Create a timer for step pulses
     // The period sets how frequently we generate a STEP pulse (if direction != 0)
-    rclc_timer_init_default(
+    rclc_timer_init_default2(
         &g_timer,
         &g_support,
         STEP_TIMER_NS,
-        step_timer_callback
+        step_timer_callback,
+        true
     );
 
     // Create an executor to handle subscription + timer

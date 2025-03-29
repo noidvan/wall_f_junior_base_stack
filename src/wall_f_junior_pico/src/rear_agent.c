@@ -42,16 +42,16 @@ SOFTWARE.
 #include "bme68x_platform.h"
 #include "pico_uart_transports.h"
 
-static const uint8_t IN1 = 6;
-static const uint8_t IN2 = 7;
-static const uint8_t ENA = 2;
-static const uint8_t IN3 = 3;
-static const uint8_t IN4 = 4;
-static const uint8_t ENB = 5;
+static const uint8_t IN1 = 7;
+static const uint8_t IN2 = 8;
+static const uint8_t ENA = 6;
+static const uint8_t IN3 = 9;
+static const uint8_t IN4 = 10;
+static const uint8_t ENB = 11;
 static const uint8_t LED_PIN = 25;
 
-static const uint8_t STEP_PIN = 2;
-static const uint8_t DIR_PIN  = 3;
+static const uint8_t STEP_PIN = 12;
+static const uint8_t DIR_PIN  = 13;
 
 static const uint8_t ADC_PIN = 26;
 
