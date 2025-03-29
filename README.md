@@ -1,6 +1,85 @@
 # WALL-F Junior Base Stack
 
-## Raspberry Pi & Base Station Software Installation
+## Start System
+SSH into RPI terminal and execute: `./system_rpi.sh`
+
+On base station terminal execute: `./system_base_station.sh`
+
+## Hardware Connection
+### Driver Motor Driver (L298N)
+- 12V -> Battery pack + 
+- GND -> Battery pack - & Pico rear GND 
+- ENA -> Pico rear GP6 
+- IN1-> Pico rear GP7 
+- IN2-> Pico rear GP8 
+- IN3-> Pico rear GP9 
+- IN4-> Pico rear GP10 
+- ENB-> Pico rear GP11 
+
+### Soil Moisture Sensor Stepper Motor Driver (A4988)
+- VM-> Battery pack + 
+- GND (bellow VM) -> Battery pack - 
+- 1B, 1A, 2A, 2B -> Servo motor 4 pin plug, order doesn’t matter 
+- VDD -> Pico rear 3V3(OUT) 
+- GND (bellow VDD) -> Pico rear GND 
+- MS2 -> Pico rear 3V3(OUT) 
+- RST & SLP -> Jumped together with jumpers 
+- STEP -> Pico rear GP12 
+- DIR-> Pico rear GP13 
+
+### Soil Moisture Sensor
+- Red wire -> Pico rear ADC_VREF 
+- Black wire -> Pico rear AGND 
+- The one that is not black nor red -> Pico rear GP26 
+
+### Air Sensor (BME680)
+- 2-5V -> Pico rear 3V3(OUT) 
+- SDA -> Pico rear GP2 
+- SCL -> Pico rear GP3 
+- GND -> Pico rear GND 
+
+### Left Joint Stepper Motor Driver (A4988)
+- VM-> Battery pack + 
+- GND (bellow VM) -> Battery pack -  
+- 1B, 1A, 2A, 2B -> Servo motor 4 pin plug
+- VDD -> Pico front 3V3(OUT) 
+- GND (bellow VDD) -> Pico front GND 
+- MS2 -> Pico front 3V3(OUT) 
+- RST & SLP -> Jumped together with jumpers 
+- STEP -> Pico front GP6 
+- DIR-> Pico front GP7 
+
+### Right Joint Stepper Motor Driver (A4988)
+- VM-> Battery pack + 
+- GND (bellow VM) -> Battery pack -  
+- 1B, 1A, 2A, 2B -> Servo motor 4 pin plug
+- VDD -> Pico front 3V3(OUT) 
+- GND (bellow VDD) -> Pico front GND 
+- MS2 -> Pico front 3V3(OUT) 
+- RST & SLP -> Jumped together with jumpers 
+- STEP -> Pico front GP8
+- DIR-> Pico front GP9
+
+### IMU (GY-521)
+- VCC -> Pico front 3V3(OUT) 
+- GND -> Pico front GND 
+- SCL -> Pico front GP3 
+- SDA -> Pico front GP2 
+
+### 5V Regulator
+- IN+ -> Battery pack + 
+- IN- -> Battery pack - 
+- OUT+ -> Pico rear VSYS & Pico front VSYS 
+- OUT- -> Pico rear GND & Pico front GND 
+
+### Raspberry Pi
+- GND -> Pico rear GND & Pico front GND 
+- GPIO8 -> Pico rear GP1 
+- GPIO9 -> Pico rear GP0 
+- GPIO12 -> Pico front GP1 
+- GPIO13 -> Pico front GP0  
+
+## Software Installation
 
 ### Install Ubuntu
 
@@ -45,10 +124,6 @@ sudo vim /boot/config.txt
 Add the following lines and reboot:
 ```
 enable_uart=1
-dtoverlay=uart0
-dtoverlay=uart1
-dtoverlay=uart2
-dtoverlay=uart3
 dtoverlay=uart4
 dtoverlay=uart5
 ```
@@ -65,6 +140,11 @@ cd wall_f_junior_base_stack
 rosdep install --from-paths src --ignore-src -r -y
 colcon build
 ```
+
+### Flash Pico
+* After compilation, locate `front_agent.uf2` and `rear_agent.uf2` in `build/wall_f_junior_pico`.
+* Press and hold the `BOOTSEL` button on the Pico while plugging in its USB to the computer.
+* Copy the `.uf2` file for the corresponding Pico into the appeared drive
 
 ## Credits
 
