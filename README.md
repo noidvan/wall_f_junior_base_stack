@@ -66,7 +66,7 @@ On base station terminal execute: `./system_base_station.sh`
 - SCL -> Pico front GP3 
 - SDA -> Pico front GP2 
 
-### First section Driver Motor Driver (L298N)
+### First Section Driver Motor Driver (L298N)
 - 12V -> Battery pack + 
 - GND -> Battery pack - & Pico first GND 
 - ENA -> Pico first GP6 
