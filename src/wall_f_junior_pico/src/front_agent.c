@@ -280,9 +280,9 @@ int main()
     gpio_set_dir(RIGHT_STEP_PIN, GPIO_OUT);
     gpio_put(RIGHT_STEP_PIN, false);
 
-    gpio_init(RIGHT_STEP_PIN);
-    gpio_set_dir(RIGHT_STEP_PIN, GPIO_OUT);
-    gpio_put(RIGHT_STEP_PIN, false);
+    gpio_init(RIGHT_DIR_PIN);
+    gpio_set_dir(RIGHT_DIR_PIN, GPIO_OUT);
+    gpio_put(RIGHT_DIR_PIN, false);
     
     i2c_init(MPU6050_PORT, 400 * 1000);
     gpio_set_function(MPU6050_SDA_PIN, GPIO_FUNC_I2C);
