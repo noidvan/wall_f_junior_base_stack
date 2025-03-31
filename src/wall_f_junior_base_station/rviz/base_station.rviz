@@ -183,7 +183,7 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 650
+      top: 640
     - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
       Name: Right Motor
