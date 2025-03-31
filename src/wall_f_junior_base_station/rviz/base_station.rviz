@@ -4,11 +4,9 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
-        - /Status1
         - /Image1/Topic1
       Splitter Ratio: 0.5
-    Tree Height: 338
+    Tree Height: 395
   - Class: rviz_common/Selection
     Name: Selection
   - Class: rviz_common/Tool Properties
@@ -73,7 +71,7 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 70
+      top: 40
     - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
       Name: Humidity [%]
@@ -101,7 +99,7 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 70
+      top: 40
     - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
       Name: Pressure [kPa]
@@ -129,7 +127,7 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 270
+      top: 240
     - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
       Name: Gas Res [ohm]
@@ -157,7 +155,7 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 270
+      top: 240
     - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
       Name: Left Motor
@@ -185,7 +183,7 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 600
+      top: 650
     - Class: rviz_2d_overlay_plugins/PieChartOverlay
       Enabled: true
       Name: Right Motor
@@ -213,7 +211,35 @@ Visualization Manager:
       show caption: true
       size: 128
       text size: 14
-      top: 600
+      top: 640
+    - Class: rviz_2d_overlay_plugins/PieChartOverlay
+      Enabled: true
+      Name: Soil Moisture
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /soil_moisture
+      Value: true
+      auto color change: false
+      background color: 0; 0; 0
+      backround alpha: 0
+      clockwise rotate direction: true
+      foreground alpha: 0.699999988079071
+      foreground alpha 2: 0.4000000059604645
+      foreground color: 25; 255; 240
+      left: 160
+      max color: 255; 0; 0
+      max color change threthold: 0
+      max value: 950
+      med color: 255; 0; 0
+      med color change threthold: 0
+      min value: 0
+      show caption: true
+      size: 128
+      text size: 14
+      top: 440
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
