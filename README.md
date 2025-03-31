@@ -1,5 +1,9 @@
 # WALL-F Junior Base Stack
 
+<p align="center">
+  <img src="img/wall_f_junior.jpg" alt="WALL-F Junior rover" width="60%"/>
+</p>
+
 ## Start System
 SSH into RPI terminal and execute: `./system_rpi.sh`
 
